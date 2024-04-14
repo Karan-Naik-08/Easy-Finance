@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Car Price Predictor</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        p {
+            display: inline;
+        }
+
+        body {
+            background-image: url('/static/images/car.jpeg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        .card {
+            margin-right: auto;
+            margin-left: auto;
+            width: 250px;
+            box-shadow: 0 15px 25px rgba(129, 124, 124, 0.2);
+            height: 300px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0);
+            padding: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <form class='grid' action="/car_result" method="post">
+        <h1 align="center">Welcome To Car Price Predictor !!</h1>
+        <div class="container mt-5" action="/car_result" method="Post">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card" style="z-index: 1; left: 66px; top: -20px; position: absolute; height: 470px; width: 1000px">
+                        <div class="card-header" style="background-color:#00bcf072" align="center">
+                            <h1>Hi User ! </h1>
+                            <h6>Please Enter The Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <p><b> Airbags :</b></p> <input type="text" name="Airbags" id="Airbags" style='z-index: 1; left: 154px; top: 137px; position: absolute; height: 30px; width:190px ;background-color: rgba(255, 255, 255, 0.2) '> <br><br>
+                            <p><b> Prod. year :</b></p><input type="number" name="Prod_year" id="Prod_year" style='z-index: 1; left: 154px; top: 190px; position: absolute; height: 30px; width:190px ;background-color: rgba(255, 255, 255, 0.2) '> <br>
+                            <p style="z-index: 1; left: 500px; top: 142px; position: absolute; height: 30px; width:190px ;"><b>Mileage :</b></p><input type="text" name="Mileage" id="Mileage"
+                                style='z-index: 1; left: 650px; top: 137px; position: absolute; height: 30px; width:190px ;background-color: rgba(255, 255, 255, 0.2) '>
+                            <br>
+                            <p
+                                style="z-index: 1; left: 500px; top: 190px; position: absolute; height: 30px; width:190px ;"><b>Levy :</b></p><input type="number" name="Levy" id="Levy"
+                                style='z-index: 1; left: 650px; top: 190px; position: absolute; height: 30px; width:190px ;background-color: rgba(255, 255, 255, 0.2) '>
+
+                            <label for="Fuel_type"><b> Fuel type :</b></label>
+                            <select name="Fuel_type" id="Fuel_type"
+                                style='z-index: 1; left: 154px; top: 240px; position: absolute; height: 30px; width:190px ; background-color: rgba(255, 255, 255, 0.2)'>
+                                <option value='0'>Petrol</option>
+                                <option value="0">Diesel</option>
+                                <option value="1">Hybrid</option>
+                            </select>
+
+                            <label for="Gear_box_type"
+                                style='z-index: 1; left: 500px; top: 235px; position: absolute; height: 30px; width:190px ; '><b>Gear box type :</b></label>
+                            <select name="Gear_box_type" id="Gear_box_type"
+                                style='z-index: 1; left: 650px; top: 240px; position: absolute; height: 30px; width:190px ; background-color: rgba(255, 255, 255, 0.2)'>
+                                <option value='0'>Automatic</option>
+                                <option value="0">Manual</option>
+                                <option value="1">Triptonic</option>
+                            </select><br><br>
+
+                            <label for="Manufacturer"><b>Manufacturer :</b></label>
+                            <select name="Manufacturer" id="Manufacturer"
+                                style='z-index: 1; left: 154px; top: 290px; position: absolute; height: 30px; width:190px ; background-color: rgba(255, 255, 255, 0.2)'>
+                                <option value='1'>Hyundai</option>
+                                <option value="0">Toyota</option>
+                                <option value="0">Suzuki</option>
+                            </select>
+
+                            <label for="Leather_interior" style='z-index: 1; left: 500px; top: 290px; position: absolute; height: 30px; width:190px ; '><b>Leather_interior:</b></label>
+                            <select  name="Leather_interior" id="Leather_interior"
+                                style='z-index: 1; left: 650px; top: 290px; position: absolute; height: 30px; width:190px ;background-color: rgba(255, 255, 255, 0.2) '>
+                                <option value='1'>Yes</option>
+                                <option value="0">No</option>
+                            </select><br><br>
+
+                            <label for="Engine_Vol"
+                                style='z-index: 1; left: 500px; top: 330px; position: absolute; height: 30px; width:190px ; '><b>Engine_Vol :</b></label>
+                            <input type="number" name="Engine_Vol" id="Engine_Vol"
+                                style='z-index: 1; left: 650px; top: 330px; position: absolute; height: 30px; width:190px ;background-color: rgba(255, 255, 255, 0.2) '><br><br><br>
+
+
+                            <button type="submit"
+                                style='z-index: 1; left: 455px; top: 370px; position: absolute; height: 30px; width:100px ; background-color: #00bcf072'>Submit</button>
+
+                        </div>
+                        <py-script>
+                        </py-script>
+                        <div class="card-footer" style="background-color: #00bcf072" align="center">
+                            <center>
+                                {% if price %}
+                                <p><B>
+                                        Price is:</B> {{price}}
+                                </p>
+                                {% endif %}
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+</body>
+
+</html>

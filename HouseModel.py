@@ -1,0 +1,13 @@
+import pickle
+import numpy as np
+
+# Load the trained model from the .pkl file
+with open('House_trained_model.pkl', 'rb') as f:
+    loaded_model = pickle.load(f)
+
+def give_pred(inpt):
+    inpt=inpt.astype(int)
+    predictin=int(loaded_model.predict(inpt))
+    #in_words=num2words(predictin,lang='en_IN')
+    return predictin
+

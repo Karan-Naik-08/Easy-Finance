@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="/static/images/favicon.png" type="">
+
+  <title> EasyFinance </title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="/static/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/static/css/responsive.css" rel="stylesheet" />
+
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
+
+</head>
+
+<body class="sub_page">
+
+  <div class="hero_area">
+
+    <div class="hero_bg_box">
+      <div class="bg_img_box">
+        <img src="/static/images/hero-bg.png" alt="">
+      </div>
+    </div>
+
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="{{ url_for('home') }}">         
+            <span>
+              EasyFinance
+            </span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class="slider_section ">
+      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6 ">
+                  <div class="detail-box">
+                    <h1>
+                      Easy <br>
+                      Finance
+                    </h1>
+                    <p>
+                      Easy Finance is a system to transform personal financial management.
+                      It aims to enable users to take control of their personal finances in a constantly changing financial environment.
+                      It will help achieve financial goals through optimizing their budget.
+                                          </p>
+                    
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="/static/images/slider-img.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          </div>
+        </div>
+        
+      </div>
+    </section>
+    <!-- end slider section -->
+    
+    <div id="financial_dashboard">
+      
+    <script>
+      // Fetch data from Flask backend using AJAX
+      fetch('/get_financial_data')
+        .then(response => response.json())
+        .then(data => {
+          // Process data and create charts dynamically
+          // For example, using Plotly.js
+          // Here's a simple example to create a bar chart
+        var salary = parseFloat(data.salary);
+        var allexp = parseFloat(data.water_bill)+parseFloat(data.electricity_bill)+parseFloat(data.medical_expense)+parseFloat(data.other_expenses)
+        var savings = parseFloat(data.salary) - parseFloat(data.allexp);
+        var amount = parseFloat(data.salary) - parseFloat(data.other_expenses); 
+        var expenses = {
+        'Water Bill': data.water_bill,
+        'Electricity Bill': data.electricity_bill,
+        'Medical Expense': data.medical_expense,
+        'Other Expenses': data.other_expenses,
+        'Salary' : data.salary
+        
+      };
+
+      // Create traces for the bar chart
+      var trace = {
+        x: Object.keys(expenses),
+        y: Object.values(expenses),
+        type: 'bar'
+      };
+
+      // Define layout for the chart
+      var layout = {
+        title: 'Monthly Expenses',
+        xaxis: { title: 'Expense Category' },
+        yaxis: { title: 'Amount (in ₹)' },
+        bargap: 0.5,  // Adjust this value to decrease the gap between bars
+        bargroupgap: 0.5  // Adjust this value to decrease the gap between bar groups
+
+      };
+
+  
+          Plotly.newPlot('financial_dashboard', [trace], layout);
+        var remainingsal = salary - allexp
+        document.getElementById('remaining_salary').textContent = remainingsal.toFixed(2);
+        var pieData = [{
+          labels: ['Salary', 'Expenditure'],
+          values: [remainingsal, allexp],
+          type: 'pie'
+        }];
+
+        // Define layout for the pie chart
+        var pieLayout = {
+          title: 'Salary vs Expenditure'
+        };
+
+        // Plot the pie chart using Plotly.js
+        Plotly.newPlot('pie_chart', pieData, pieLayout);
+        var monthlyAmount = parseFloat(data.monthlyAmount); // Update 'monthlyAmount' with your specific amount
+        document.getElementById('amtrem').textContent = monthlyAmount.toFixed(2);
+            var monthlySum = [];
+            var sum = 0;
+            for (var i = 0; i < 12; i++) {
+                sum += monthlyAmount;
+                monthlySum.push(sum);
+            }
+
+            // Create traces for the line chart
+            var lineTrace = {
+                x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                y: monthlySum,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Monthly Sum'
+            };
+
+            // Define layout for the line chart
+            var lineLayout = {
+                title: 'Monthly Summation',
+                xaxis: { title: 'Month' },
+                yaxis: { title: 'Sum (in ₹)' }
+            };
+
+            // Plot the line chart using Plotly.js
+            Plotly.newPlot('line_chart', [lineTrace], lineLayout);
+
+        var initial = parseFloat(data.monthlyAmount); // Update 'monthlyAmount' with your specific amount
+            var monthlySum1 = [];
+            var amt = 0;
+            var tableData = [];
+            var newamt = initial;
+            for (var i = 0; i < 12; i++) {
+                amt += initial ;
+                amt = amt * 1.1
+                monthlySum1.push(amt);
+
+                newamt = newamt * 1.1 
+                tableData.push({
+                    month: i + 1,
+                    newamt : newamt.toFixed(2) // Format amount to 2 decimal places
+                });
+            }
+
+            // Create traces for the line chart
+            var lineTrace1 = {
+                x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                y: monthlySum1,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Monthly Sum'
+            };
+
+            // Define layout for the line chart
+            var lineLayout1 = {
+                title: 'Monthly Summation',
+                xaxis: { title: 'Month' },
+                yaxis: { title: 'Sum (in ₹)' }
+            };
+
+            // Plot the line chart using Plotly.js
+            Plotly.newPlot('line_chart1', [lineTrace1], lineLayout1);
+        
+            var tableHTML = '<table><tr><th>Monthly</th><th>Amount (in ₹)</th></tr>';
+            tableData.forEach(function(row) {
+                tableHTML += '<tr><td>' + row.month + '</td><td>' + row.newamt + '</td></tr>';
+            });
+            tableHTML += '</table>';
+
+            // Add the table to the document
+            document.getElementById('table_container').innerHTML = tableHTML;
+        });
+        
+      
+    </script>
+    </div>
+    <p style="background-color: #004196;">.</p>
+    <div id="pie_chart"></div>
+    <p>Your Remaining Monthly Salary is :<span id="remaining_salary"></span> </p>
+    <p>Monthly Amount Required To achieve Goal is : <span id="amtrem"></span> </p>
+    <p style="background-color: #004196;">.</p>
+    <div id="line_chart"></div>
+    <p>But if You add aditional 10% each monthy your goal would be achived in  : </p>
+    <p style="background-color: #004196;">.</p>
+    <div id="line_chart1"></div>
+
+    <div id="table_container"></div>
+
+  
+
+
+  <!-- client section -->
+  <!-- end client section -->
+
+
+  <!-- info section -->
+
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-3 info_col">
+          <div class="info_contact">
+            <h4>
+              Address
+            </h4>
+            <div class="contact_link_box">
+              <a href="">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  Vasai-Virar
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                  Call +91 1234567890
+                </span>
+              </a>
+              <a href="">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                  demo@gmail.com
+                </span>
+              </a>
+            </div>
+          </div>
+          <div class="info_social">
+            <a href="">
+              <i class="fa fa-facebook" aria-hidden="true"></i>
+            </a>
+            <a href="">
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a href="">
+              <i class="fa fa-linkedin" aria-hidden="true"></i>
+            </a>
+            <a href="">
+              <i class="fa fa-instagram" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 info_col">
+          <div class="info_detail">
+            <h4>
+              Info
+            </h4>
+            <p>
+              EasyFinance offers personalized and data-driven financial advice, budget optimization in real-time, and goal-oriented financial planning            </p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-2 mx-auto info_col">
+          <div class="info_link_box">
+            <h4>
+              Links
+            </h4>
+            <div class="info_links">
+              <a class="active" href="index.html">
+                Home
+              </a>
+              <a class="" href="about.html">
+                About
+              </a>
+              <a class="" href="service.html">
+                Services
+              </a>
+              <a class="" href="team.html">
+                Team
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end info section -->
+
+  <!-- footer section -->
+  <section class="footer_section">
+    <div class="container">
+      <p>
+        &copy; <span id="displayYear"></span> All Rights Reserved By
+        <a href="">EasyFinance</a>
+      </p>
+    </div>
+  </section>
+  <!-- footer section -->
+
+  <!-- jQery -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- bootstrap js -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+  <!-- owl slider -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- custom js -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/custom.js') }}"></script>
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+  </script>
+  <!-- End Google Map -->
+
+</body>
+
+</html>
